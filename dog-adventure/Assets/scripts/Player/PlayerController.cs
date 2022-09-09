@@ -16,13 +16,14 @@ public class PlayerController : MonoBehaviour
 
     //components
     private CharacterController controller;
+    private Animator anim;
 
 
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
-
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour
     {
         Inputs();
         MoveCharacter();
-
+        UpdateAnimator();
     }
 
     //geting and managing inputs
@@ -66,6 +67,13 @@ public class PlayerController : MonoBehaviour
 
         //move Character setting direaction and speed
         controller.Move(direction * MovementSpeed * Time.deltaTime);
+
+    }
+
+    
+    void UpdateAnimator()
+    {
+        anim.SetBool("isWalking", isWalking);
 
     }
 }
