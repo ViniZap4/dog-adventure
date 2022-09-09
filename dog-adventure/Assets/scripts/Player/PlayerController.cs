@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Moviment Variables")]
+    [Space]
     private Vector3 direction;
     public float MovementSpeed = 3f;
     private bool isWalking;
@@ -13,6 +14,15 @@ public class PlayerController : MonoBehaviour
     //input variables
     private float horizontal;
     private float vertical;
+
+    [Header("Attack Variables")]
+    [Space] private bool isAttacking;
+    public Transform HitArea;
+    private float hitRange = 0.5f;
+    public Collider[] hitInfo;
+    public LayerMask hitMask;
+    public int amountDmg;
+
 
     //components
     private CharacterController controller;
@@ -37,8 +47,14 @@ public class PlayerController : MonoBehaviour
     //geting and managing inputs
     void Inputs()
     {
+        //mobiment input
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+
+        if(Input.GetButtonDown("Fire1") && !isAttacking)
+        {
+            Attack();
+        }
 
     }
 
@@ -75,5 +91,22 @@ public class PlayerController : MonoBehaviour
     {
         anim.SetBool("isWalking", isWalking);
 
+    }
+
+    void Attack()
+    {
+        isAttacking = true;
+        anim.SetTrigger("Attack");
+
+        hitInfo = Physics.OverlapSphere(HitArea.position, hitRange, hitMask);
+
+        foreach (Collider itemCollided in hitInfo)
+        {
+            itemCollided.gameObject.SendMessage("GetHit", amountDmg, SendMessageOptions.DontRequireReceiver);
+        }
+    }
+    void AttackIsDone()
+    {
+        isAttacking = false;
     }
 }

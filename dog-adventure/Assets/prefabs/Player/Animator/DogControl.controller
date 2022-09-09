@@ -75,7 +75,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isWalk
+    m_ConditionEvent: isWalking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3338705010442929029}
@@ -225,7 +225,7 @@ AnimatorController:
   m_Name: DogControl
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: isWalk
+  - m_Name: isWalking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -265,7 +265,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: BodySup
     m_StateMachine: {fileID: -6700378391590832197}
-    m_Mask: {fileID: 31900000, guid: a29db6374bbd8eb47b7a0d167d5bde0f, type: 2}
+    m_Mask: {fileID: 31900000, guid: d9ff296b5c3724df49e3d0c1eefba634, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
@@ -287,7 +287,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: -2302892077141502623}
   m_StateMachineBehaviours:
-  - {fileID: -6734833234835257227}
+  - {fileID: 8145601528434271632}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -416,7 +416,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: isWalk
+    m_ConditionEvent: isWalking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102031868726192584}
@@ -432,6 +432,18 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &8145601528434271632
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd22a1a44838b4f71981ca1100e58268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1102 &9006482126200725698
 AnimatorState:
   serializedVersion: 6
