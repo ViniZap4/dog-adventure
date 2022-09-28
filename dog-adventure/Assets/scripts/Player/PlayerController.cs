@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private float hitRange = 0.5f;
     public Collider[] hitInfo;
     public LayerMask hitMask;
-    public int amountDmg;
+    public int amountDmg = 10;
 
 
     //components
@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour
             itemCollided.gameObject.SendMessage("GetHit", amountDmg, SendMessageOptions.DontRequireReceiver);
         }
     }
+
     void AttackIsDone()
     {
         isAttacking = false;
