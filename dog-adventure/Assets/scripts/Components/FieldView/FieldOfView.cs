@@ -6,8 +6,10 @@ using UnityEngine;
 public class FieldOfView : MonoBehaviour
 {
     public float radius;
+    public float currentRadius;
     [Range(0,360)]
     public float angle;
+    public float currentAngle;
 
     public GameObject playerRef;
 
@@ -16,8 +18,11 @@ public class FieldOfView : MonoBehaviour
 
     public bool canSeePlayer;
 
-    private void Start()
+    private void Awake()
     {
+        currentAngle = angle;
+        currentRadius = radius;
+
         playerRef = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVRoutine());
     }
@@ -35,14 +40,14 @@ public class FieldOfView : MonoBehaviour
 
     private void FieldOfViewCheck()
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, currentRadius, targetMask);
 
         if (rangeChecks.Length != 0)
         {
             Transform target = rangeChecks[0].transform;
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-            if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
+            if (Vector3.Angle(transform.forward, directionToTarget) < currentAngle / 2)
             {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
 

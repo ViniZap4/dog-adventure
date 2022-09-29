@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
+
+        hitMask = LayerMask.GetMask("NPC");
     }
 
     // Update is called once per frame
@@ -110,4 +112,11 @@ public class PlayerController : MonoBehaviour
     {
         isAttacking = false;
     }
+
+    void GetHit(int amountDmg)
+    {
+        anim.SetTrigger("Hit");
+        Debug.Log(amountDmg + " Demage");
+    }
+
 }

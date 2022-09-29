@@ -11,7 +11,7 @@ public class Monster : MonoBehaviour
 
 	public enum monsterState
 	{
-		IDLE, ALERT, PATROL, FOLLOW, FURY, DIE
+		IDLE, PATROL, ALERT, FOLLOW, FURY, DIE
 	}
 
 	public monsterState selfState;
@@ -21,17 +21,36 @@ public class Monster : MonoBehaviour
 	protected int idWaypoint;
 	protected Vector3 destination;
 	protected bool isWalk;
+	protected FieldOfView fieldOfView;
 
 	//monster attributes
 	public bool isDie = false;
 	public bool isAlert = false;
-	public int HP = 100;
+	public bool isAttack = false;
+	public int HP;
+	public float lookSpeed;
+	public float alertTime;
+	public float followPersist;
+	public float rangeAttack;
+	public float attackDelay;
+
+	//attack
+	public Collider[] hitInfo;
+	public Transform hitStart;
+	public Transform hitEnd;
+	public float hitRadius;
+	public LayerMask hitMask;
+	public int amountDmg = 1;
+
+	public GameObject playerRef;
 
 
 	protected void Awake()
 	{
 		_GameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
 		anim = GetComponent<Animator>();
+		//hitMask = LayerMask.GetMask("Target");
+		
 	}
 
 	protected int Rand()
@@ -40,4 +59,6 @@ public class Monster : MonoBehaviour
 
 		return rand;
 	}
+
+
 }
