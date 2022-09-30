@@ -18,12 +18,13 @@ public class PlayerController : MonoBehaviour
     [Header("Attack Variables")]
     [Space] private bool isAttacking;
     public Transform HitArea;
-    private float hitRange = 0.5f;
+    public float hitRange = 0.81f;
     public Collider[] hitInfo;
     public LayerMask hitMask;
     public int amountDmg = 10;
-
-
+    public int HP = 100;
+   
+    
     //components
     private CharacterController controller;
     private Animator anim;
@@ -115,8 +116,36 @@ public class PlayerController : MonoBehaviour
 
     void GetHit(int amountDmg)
     {
-        anim.SetTrigger("Hit");
-        Debug.Log(amountDmg + " Demage");
+        HP -= amountDmg;
+
+        if (HP > 0)
+        {
+            anim.SetTrigger("Hit");
+        }
+        else
+        {
+            //_GameManager.ChangeGameState(GameState.DIE);
+            anim.SetTrigger("Die");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        
+        if (other.gameObject.tag == "DMG")
+        {
+            GetHit(1);
+        }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+
+        //(Slime.hitStart.position, Slime.hitEnd.position, Slime.hitRadius);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(HitArea.position, hitRange);
     }
 
 }

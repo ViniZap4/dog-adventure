@@ -7,6 +7,7 @@ TagManager:
   - monster
   - SlimeWayPoint
   - ChestWayPoint
+  - DMG
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Target
   - Stuff
   - NPC
-  - 
+  - npcDMG
   - 
   - 
   - 

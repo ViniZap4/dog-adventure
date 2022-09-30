@@ -43,10 +43,21 @@ public class Slime : Monster
 		
 	}
 
+    private void OnTriggerStay(Collider other)
+    {
+		Debug.Log("Collide - " + other.gameObject.name + "- Tag " + other.gameObject.tag);
+		Debug.Log("Collide - " + other.name + "- Tag " + other.tag);
 
-	#region event
+		if (other.gameObject.tag == "Player" && selfState != monsterState.FURY)
+		{
+			changeState(monsterState.FURY);
+		}
+	}
 
-	public void GetHit(int amountDmg)
+
+    #region event
+
+    public void GetHit(int amountDmg)
 	{
 		print(HP);
 
@@ -90,18 +101,6 @@ public class Slime : Monster
 
 	void AttackIsDone()
 	{
-		hitInfo = Physics.OverlapCapsule(hitStart.position, hitEnd.position, hitRadius);
-
-		foreach (Collider itemCollided in hitInfo)
-		{
-			if (itemCollided.name == "DogPolyart")
-			{
-				itemCollided.gameObject.SendMessage("GetHit", amountDmg, SendMessageOptions.DontRequireReceiver);
-				Debug.Log("send dmg to" + itemCollided.name);
-				break;
-			}
-		}
-
 		StartCoroutine("ATTACK");
 	}
 
@@ -158,9 +157,8 @@ public class Slime : Monster
 		StopAllCoroutines();
 		selfState = newState;
 
-		print(selfState);
-
-		
+		//print(selfState);
+		isAttack = false;
 
 		switch (newState)
 		{
@@ -209,8 +207,13 @@ public class Slime : Monster
 		// folloing player and init attack
         if(selfState == monsterState.FOLLOW || selfState == monsterState.FURY)
         {
-			destination = playerRef.transform.position;
-			agent.destination = destination;
+			float distancePlayer = Vector3.Distance(playerRef.transform.position, transform.position);
+			if(distancePlayer > 2)
+            {
+				destination = playerRef.transform.position;
+				agent.destination = destination;
+			}
+			
 
 			LookAt();
 
@@ -343,7 +346,7 @@ public class Slime : Monster
 		//(Slime.hitStart.position, Slime.hitEnd.position, Slime.hitRadius);
 
 		Gizmos.color = Color.magenta;
-		Gizmos.DrawWireSphere(hitStart.position, hitRadius);
+		//Gizmos.DrawWireSphere(hitStart.position, hitRadius);
 		Gizmos.DrawWireSphere(hitEnd.position, hitRadius);
 
 		Gizmos.DrawLine(hitStart.position, hitEnd.position);
