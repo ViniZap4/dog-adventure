@@ -24,7 +24,7 @@ public class Slime : Monster
 		alertTime = 1.5f;
 		followPersist = 1.8f;
 		rangeAttack = 2.3f;
-		attackDelay = 1f;
+		attackDelay = 1.5f;
 		agent.speed = 1f;
 
 	}
@@ -33,7 +33,7 @@ public class Slime : Monster
 
 	private void Update()
 	{
-		if(selfState != monsterState.DIE)
+		if(!isDie)
         {
 			StateManager();
 			WalkControl();
@@ -45,9 +45,6 @@ public class Slime : Monster
 
     private void OnTriggerStay(Collider other)
     {
-		Debug.Log("Collide - " + other.gameObject.name + "- Tag " + other.gameObject.tag);
-		Debug.Log("Collide - " + other.name + "- Tag " + other.tag);
-
 		if (other.gameObject.tag == "Player" && selfState != monsterState.FURY)
 		{
 			changeState(monsterState.FURY);
@@ -59,7 +56,7 @@ public class Slime : Monster
 
     public void GetHit(int amountDmg)
 	{
-		print(HP);
+		print(HP + " - " + amountDmg);
 
 		if (isDie == true) return;
 
@@ -81,9 +78,21 @@ public class Slime : Monster
 	{
 		//if (_GameManager.gameState != GameState.GAMEPLAY) return;
 
-		if (fieldOfView.canSeePlayer && !isAlert && selfState != monsterState.FURY)
+		// if see player
+		if (fieldOfView.canSeePlayer)
 		{
-			changeState(monsterState.ALERT);
+			if(selfState == monsterState.PATROL || selfState == monsterState.IDLE)
+            {
+				changeState(monsterState.ALERT);
+			}
+
+        }
+        else // looking Player
+        {
+			if (selfState == monsterState.FURY || selfState == monsterState.FOLLOW)
+			{
+				changeState(monsterState.ALERT);
+			}
 		}
 
 	}
@@ -155,10 +164,25 @@ public class Slime : Monster
     void changeState(monsterState newState)
 	{
 		StopAllCoroutines();
+
 		selfState = newState;
 
 		//print(selfState);
+
 		isAttack = false;
+
+		// normal speed
+		if (newState != monsterState.FURY)
+		{
+			agent.speed = 1f;
+		}
+
+		// solve alert
+		if (newState != monsterState.ALERT && isAlert)
+		{
+			isAlert = false;
+		}
+
 
 		switch (newState)
 		{
@@ -207,14 +231,10 @@ public class Slime : Monster
 		// folloing player and init attack
         if(selfState == monsterState.FOLLOW || selfState == monsterState.FURY)
         {
-			float distancePlayer = Vector3.Distance(playerRef.transform.position, transform.position);
-			if(distancePlayer > 2)
-            {
-				destination = playerRef.transform.position;
-				agent.destination = destination;
-			}
+		
+			destination = playerRef.transform.position;
+			agent.destination = destination;
 			
-
 			LookAt();
 
 			if (agent.remainingDistance <= agent.stoppingDistance)
@@ -222,13 +242,6 @@ public class Slime : Monster
 				Attack();
 			}
 		}
-
-		// normal speed
-        if (selfState != monsterState.FURY)
-        {
-			agent.speed = 1f;
-		}
-
 		switch (selfState)
 		{
 			case monsterState.ALERT:
@@ -242,9 +255,6 @@ public class Slime : Monster
 
 
 			case monsterState.FURY:
-
-				float distancePlayer = Vector3.Distance( playerRef.transform.position, transform.position) + 3f;
-				fieldOfView.currentRadius = Mathf.Lerp(fieldOfView.currentRadius, distancePlayer, 1f * Time.deltaTime);
 				agent.speed = 2f;
 
                 if (!fieldOfView.canSeePlayer)
@@ -272,11 +282,17 @@ public class Slime : Monster
 	{
 		agent.stoppingDistance = 0;
 
-		// adding new point way.
+        // adding new point way.
+        while (_GameManager.slimeWayPoint.ToArray().Length <= 0)
+        {
+			print(" slime point still don't load ");
+			yield return new WaitForSeconds(0.2f);
+		}
+	
 		idWaypoint = Random.Range(0, _GameManager.slimeWayPoint.ToArray().Length);
 		destination = _GameManager.slimeWayPoint[idWaypoint].position;
 		agent.destination = destination;
-
+		
 		yield return new WaitUntil(() => agent.remainingDistance <= 0);
 		StayStill(50);
 	}
@@ -291,7 +307,6 @@ public class Slime : Monster
 		}
 		else
 		{
-			isAlert = false;
 			StayStill(10);
 		}
 	}

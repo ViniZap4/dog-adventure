@@ -20,13 +20,15 @@ public class Monster : MonoBehaviour
 	protected NavMeshAgent agent;
 	protected int idWaypoint;
 	protected Vector3 destination;
-	protected bool isWalk;
 	protected FieldOfView fieldOfView;
 
-	//monster attributes
+	// is something
 	public bool isDie = false;
 	public bool isAlert = false;
 	public bool isAttack = false;
+	public bool isWalk = false;
+
+	//monster attributes
 	public int HP;
 	public float lookSpeed;
 	public float alertTime;

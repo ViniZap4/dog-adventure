@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     [Header("Attack Variables")]
     [Space] private bool isAttacking;
     public Transform HitArea;
-    public float hitRange = 0.81f;
+    public float hitRange = 1f;
     public Collider[] hitInfo;
     public LayerMask hitMask;
     public int amountDmg = 10;

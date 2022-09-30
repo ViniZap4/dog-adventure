@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 833248538647183950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.099, y: 0.662, z: 0.438}
+  m_LocalPosition: {x: 0.29, y: 0.758, z: 0.74}
   m_LocalScale: {x: 1.538708, y: 1.5220745, z: 1.538708}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1716,7 +1716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 3
   HitArea: {fileID: 833248538647183951}
-  hitRange: 0.81
+  hitRange: 1
   hitInfo: []
   hitMask:
     serializedVersion: 2
