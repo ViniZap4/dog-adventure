@@ -163,6 +163,8 @@ public class Slime : Monster
 
     void changeState(monsterState newState)
 	{
+		if (isDie) return;
+
 		StopAllCoroutines();
 
 		selfState = newState;
