@@ -24,7 +24,7 @@ public class Slime : Monster
 		alertTime = 1.5f;
 		followPersist = 1.8f;
 		rangeAttack = 2.3f;
-		attackDelay = 1.5f;
+		attackDelay = 3f;
 		agent.speed = 1f;
 
 	}
@@ -56,8 +56,6 @@ public class Slime : Monster
 
     public void GetHit(int amountDmg)
 	{
-		print(HP + " - " + amountDmg);
-
 		if (isDie == true) return;
 
 		HP -= amountDmg;
@@ -74,32 +72,42 @@ public class Slime : Monster
 		}
 	}
 
+	private void OnTriggerEnter(Collider other)
+	{
+
+		if (other.gameObject.tag == "DMG")
+		{
+			GetHit(10);
+		}
+	}
+
 	void CanSeeEvent()
 	{
 		//if (_GameManager.gameState != GameState.GAMEPLAY) return;
-
-		// if see player
-		if (fieldOfView.canSeePlayer)
+		if (selfState != monsterState.ALERT)
 		{
-			if(selfState == monsterState.PATROL || selfState == monsterState.IDLE)
-            {
-				changeState(monsterState.ALERT);
-			}
-
-        }
-        else // looking Player
-        {
-			if (selfState == monsterState.FURY || selfState == monsterState.FOLLOW)
+			// if see player
+			if (fieldOfView.canSeePlayer)
 			{
-				changeState(monsterState.ALERT);
+				if (selfState == monsterState.PATROL || selfState == monsterState.IDLE)
+				{
+					changeState(monsterState.ALERT);
+				}
+
+			}
+			else // looking Player
+			{
+				if (selfState == monsterState.FURY || selfState == monsterState.FOLLOW)
+				{
+					changeState(monsterState.ALERT);
+				}
 			}
 		}
-
 	}
 
 	void Attack()
 	{
-		if (!isAttack && fieldOfView.canSeePlayer)
+		if (!isAttack && fieldOfView.canSeePlayer && agent.remainingDistance <= agent.stoppingDistance)
 		{
 			LookAt();
 			isAttack = true;
@@ -108,7 +116,7 @@ public class Slime : Monster
 		}
 	}
 
-	void AttackIsDone()
+void AttackIsDone()
 	{
 		StartCoroutine("ATTACK");
 	}
@@ -168,8 +176,6 @@ public class Slime : Monster
 		StopAllCoroutines();
 
 		selfState = newState;
-
-		//print(selfState);
 
 		isAttack = false;
 
@@ -244,6 +250,7 @@ public class Slime : Monster
 				Attack();
 			}
 		}
+
 		switch (selfState)
 		{
 			case monsterState.ALERT:

@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     public float MovementSpeed = 3f;
     private bool isWalking;
 
-
     //input variables
     private float horizontal;
     private float vertical;
@@ -21,10 +20,19 @@ public class PlayerController : MonoBehaviour
     public float hitRange = 1f;
     public Collider[] hitInfo;
     public LayerMask hitMask;
+
     public int amountDmg = 10;
-    public int HP = 100;
-   
+
     
+    private bool isDefending;
+    public float defendAngle = 4;
+
+    public int maxHP = 100;
+    public int HP = 100;
+
+    public int maxStamina = 100;
+    public float stamina = 100f;
+
     //components
     private CharacterController controller;
     private Animator anim;
@@ -35,8 +43,6 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
-
-        hitMask = LayerMask.GetMask("NPC");
     }
 
     // Update is called once per frame
@@ -45,6 +51,22 @@ public class PlayerController : MonoBehaviour
         Inputs();
         MoveCharacter();
         UpdateAnimator();
+        UpdateStamina();
+    }
+
+    void UpdateStamina()
+    {
+        if (maxStamina > stamina)
+        {
+
+            stamina += 2 * Time.deltaTime;
+        }
+        else if(stamina != maxStamina)
+        {
+            stamina = maxStamina;
+        }else if (stamina < 0){
+            stamina = 0;
+        }
     }
 
     //geting and managing inputs
@@ -54,10 +76,23 @@ public class PlayerController : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        if(Input.GetButtonDown("Fire1") && !isAttacking)
+        if(Input.GetButtonDown("Fire1") && !isAttacking && !isDefending && stamina > 5)
         {
+            stamina -= 5;
             Attack();
         }
+
+        if (Input.GetButtonDown("Defend") && !isDefending && stamina > 5)
+        {
+            isDefending = true;
+        }
+
+        if (Input.GetButtonUp("Defend"))
+        {
+            isDefending = false;
+        }
+
+        
 
     }
 
@@ -79,7 +114,7 @@ public class PlayerController : MonoBehaviour
             isWalking = true;
 
         }
-        else
+        else 
         {
             isWalking = false;
         }
@@ -93,7 +128,7 @@ public class PlayerController : MonoBehaviour
     void UpdateAnimator()
     {
         anim.SetBool("isWalking", isWalking);
-
+        anim.SetBool("isDefending", isDefending);
     }
 
     void Attack()
@@ -101,12 +136,17 @@ public class PlayerController : MonoBehaviour
         isAttacking = true;
         anim.SetTrigger("Attack");
 
-        hitInfo = Physics.OverlapSphere(HitArea.position, hitRange, hitMask);
+        //hitInfo = Physics.OverlapSphere(HitArea.position, hitRange, hitMask);
+        //hitInfo = Physics.OverlapSphere(HitArea.position, hitRange, LayerMask.GetMask("NPC"));
 
-        foreach (Collider itemCollided in hitInfo)
-        {
-            itemCollided.gameObject.SendMessage("GetHit", amountDmg, SendMessageOptions.DontRequireReceiver);
-        }
+        //foreach (Collider itemCollided in hitInfo)
+        //{
+            //itemCollided.gameObject.SendMessage("GetHit", amountDmg, SendMessageOptions.DontRequireReceiver);
+
+            //if (itemCollided.tag == "monster" || itemCollided.tag == "DMG")
+            //{
+            //}
+        //}
     }
 
     void AttackIsDone()
@@ -114,19 +154,34 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
     }
 
-    void GetHit(int amountDmg)
+    void GetHit(int amountDmg, Transform otherRef)
     {
-        HP -= amountDmg;
 
-        if (HP > 0)
+
+        if (isDefending)
         {
-            anim.SetTrigger("Hit");
+            if (stamina < 5 * amountDmg)
+            {
+                isDefending = false;
+            }
+
+            stamina -= 5 * amountDmg;
         }
         else
         {
-            //_GameManager.ChangeGameState(GameState.DIE);
-            anim.SetTrigger("Die");
+            HP -= amountDmg;
+
+            if (HP > 0)
+            {
+                anim.SetTrigger("Hit");
+            }
+            else
+            {
+                //_GameManager.ChangeGameState(GameState.DIE);
+                anim.SetTrigger("Die");
+            }
         }
+  
     }
 
     private void OnTriggerEnter(Collider other)
@@ -134,11 +189,12 @@ public class PlayerController : MonoBehaviour
         
         if (other.gameObject.tag == "DMG")
         {
-            GetHit(1);
+            GetHit(1, other.transform);
         }
     }
 
 
+    /*
     private void OnDrawGizmos()
     {
 
@@ -147,5 +203,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(HitArea.position, hitRange);
     }
+    */
 
 }
