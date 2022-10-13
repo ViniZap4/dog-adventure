@@ -154,18 +154,18 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
     }
 
-    void GetHit(int amountDmg, Transform otherRef)
+    void GetHit(int amountDmg)
     {
 
 
         if (isDefending)
         {
-            if (stamina < 5 * amountDmg)
+            if (stamina < 3 * amountDmg)
             {
                 isDefending = false;
             }
 
-            stamina -= 5 * amountDmg;
+            stamina -= 3 * amountDmg;
         }
         else
         {
@@ -187,9 +187,10 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         
-        if (other.gameObject.tag == "DMG")
+
+        if (other.gameObject.tag == "DMG" && other.transform.parent.tag == "monster")
         {
-            GetHit(1, other.transform);
+            GetHit(other.transform.parent.GetComponent<Monster>().amountDmg);
         }
     }
 

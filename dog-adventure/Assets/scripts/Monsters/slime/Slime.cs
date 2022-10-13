@@ -8,7 +8,9 @@ public class Slime : Monster
 {
 	public ParticleSystem blood;
 
-    void Start()
+	public int maxHP = 30;
+
+	void Start()
     {
 		// get Components
 		agent = GetComponent<NavMeshAgent>();
@@ -75,9 +77,9 @@ public class Slime : Monster
 	private void OnTriggerEnter(Collider other)
 	{
 
-		if (other.gameObject.tag == "DMG")
+		if (other.gameObject.tag == "DMG" && other.transform.parent.name == "Player")
 		{
-			GetHit(10);
+			GetHit(other.transform.parent.GetComponent<PlayerController>().amountDmg);
 		}
 	}
 

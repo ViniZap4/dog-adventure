@@ -42,7 +42,7 @@ public class Monster : MonoBehaviour
 	public Transform hitEnd;
 	public float hitRadius;
 	public LayerMask hitMask;
-	public int amountDmg = 1;
+	public int amountDmg;
 
 	public GameObject playerRef;
 
