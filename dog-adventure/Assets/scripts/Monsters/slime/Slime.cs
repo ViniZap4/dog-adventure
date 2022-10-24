@@ -136,8 +136,11 @@ void AttackIsDone()
 
 	void AnimControl() // animations
     {
+		if (isDie == true) return;
+		
 		anim.SetBool("isWalk", isWalk);
-		anim.SetBool("isAlert", isAlert);
+		anim.SetBool("isAlert", isAlert);	
+		
 	}
 
 
@@ -238,13 +241,16 @@ void AttackIsDone()
 				fieldOfView.currentRadius = Mathf.Lerp(fieldOfView.currentRadius, fieldOfView.radius, 1f * Time.deltaTime);
 		}
 
+
+
+
 		// folloing player and init attack
-        if(selfState == monsterState.FOLLOW || selfState == monsterState.FURY)
+		if (selfState == monsterState.FOLLOW || selfState == monsterState.FURY)
         {
-		
+
 			destination = playerRef.transform.position;
 			agent.destination = destination;
-			
+
 			LookAt();
 
 			if (agent.remainingDistance <= agent.stoppingDistance)
@@ -252,6 +258,9 @@ void AttackIsDone()
 				Attack();
 			}
 		}
+
+
+		
 
 		switch (selfState)
 		{

@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 2264279527859049755}
   - component: {fileID: 2264279527859049749}
   - component: {fileID: 2264279527859049754}
-  - component: {fileID: 5605617289816109661}
+  - component: {fileID: 7084611046012932153}
   m_Layer: 8
   m_Name: Slime
   m_TagString: monster
@@ -616,8 +616,8 @@ MonoBehaviour:
   playerRef: {fileID: 0}
   blood: {fileID: 2912990511116001545}
   maxHP: 30
---- !u!65 &5605617289816109661
-BoxCollider:
+--- !u!136 &7084611046012932153
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -626,9 +626,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.84, y: 1.09, z: 1.09}
-  m_Center: {x: 0, y: 0.55, z: 0}
+  m_Radius: 0.63
+  m_Height: 1.16
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.56, z: 0}
 --- !u!1 &2178871256863125222
 GameObject:
   m_ObjectHideFlags: 0

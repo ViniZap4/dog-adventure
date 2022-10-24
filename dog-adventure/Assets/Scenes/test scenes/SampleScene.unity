@@ -3612,10 +3612,10 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279284013}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 0.38, y: 0.795, z: 0.38}
+  m_Extents: {x: 0.4, y: 0.8, z: 0.4}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
@@ -5888,7 +5888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2174713281599793372, guid: ca4c706b7d5ea43fd9e4d00372af1c1e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.13
+      value: 3.31
       objectReference: {fileID: 0}
     - target: {fileID: 2174713281599793372, guid: ca4c706b7d5ea43fd9e4d00372af1c1e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5896,11 +5896,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2174713281599793372, guid: ca4c706b7d5ea43fd9e4d00372af1c1e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -66.53
+      value: -67.87
       objectReference: {fileID: 0}
     - target: {fileID: 2174713281599793372, guid: ca4c706b7d5ea43fd9e4d00372af1c1e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.41558835
+      value: 0.2824612
       objectReference: {fileID: 0}
     - target: {fileID: 2174713281599793372, guid: ca4c706b7d5ea43fd9e4d00372af1c1e, type: 3}
       propertyPath: m_LocalRotation.x
@@ -5908,7 +5908,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2174713281599793372, guid: ca4c706b7d5ea43fd9e4d00372af1c1e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.9095529
+      value: -0.95927876
       objectReference: {fileID: 0}
     - target: {fileID: 2174713281599793372, guid: ca4c706b7d5ea43fd9e4d00372af1c1e, type: 3}
       propertyPath: m_LocalRotation.z
@@ -5920,7 +5920,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2174713281599793372, guid: ca4c706b7d5ea43fd9e4d00372af1c1e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -130.887
+      value: -147.186
       objectReference: {fileID: 0}
     - target: {fileID: 2174713281599793372, guid: ca4c706b7d5ea43fd9e4d00372af1c1e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
