@@ -8,6 +8,7 @@ TagManager:
   - SlimeWayPoint
   - ChestWayPoint
   - DMG
+  - GolemWayPoint
   layers:
   - Default
   - TransparentFX

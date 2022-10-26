@@ -8,8 +8,9 @@ public class GameManager : MonoBehaviour
     public Transform wayPoints;
     public List<Transform>  slimeWayPoint;
     public List<Transform> chestWayPoint;
+    public List<Transform> golemWayPoint;
 
- 
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,10 @@ public class GameManager : MonoBehaviour
             }else if (g.tag == "ChestWayPoint")
             {
                 chestWayPoint.Add(g);
+            }
+            else if (g.tag == "GolemWayPoint")
+            {
+                golemWayPoint.Add(g);
             }
         }
     }
