@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //move Character setting direaction and speed
+        
         controller.Move(direction * MovementSpeed * Time.deltaTime);
 
     }
@@ -127,7 +128,15 @@ public class PlayerController : MonoBehaviour
     
     void UpdateAnimator()
     {
-        anim.SetBool("isWalking", isWalking);
+        if (MovementSpeed > 0f)
+        {
+            anim.SetBool("isWalking", isWalking);
+        }
+        else
+        {
+            anim.SetBool("isWalking", false);
+
+        }
         anim.SetBool("isDefending", isDefending);
     }
 
@@ -184,13 +193,26 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
-
         if (other.gameObject.tag == "DMG" && other.transform.parent.tag == "monster")
         {
             GetHit(other.transform.parent.GetComponent<Monster>().amountDmg);
         }
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "monster")
+        {
+            MovementSpeed = 0f;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "monster")
+        {
+            MovementSpeed = 3f;
+        }
+    }
+
 
 
     /*

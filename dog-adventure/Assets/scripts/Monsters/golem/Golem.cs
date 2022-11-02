@@ -25,7 +25,7 @@ public class Golem : Monster
 		lookSpeed = 1f;
 		alertTime = 2.15f;
 		followPersist = 6f;
-		rangeAttack = 3f;
+		rangeAttack = 3.5f;
 		attackDelay = 4.5f;
 		agent.speed = 1.3f;
 		amountDmg = 3;
@@ -72,7 +72,7 @@ private void Update()
 			for (int i = 0; i < w; i += 1)
 			{
 				string clipName = anim.GetCurrentAnimatorClipInfo(0)[i].clip.name;
-                if (clipName != "GetHit")
+                if (clipName != "GetHit" && clipName != "Attack")
 				{
 					anim.SetTrigger("GetHit");
 
