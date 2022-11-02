@@ -8,7 +8,7 @@ public class Golem : Monster
 {
 	public ParticleSystem blood;
 
-	public int maxHP = 1000;
+	public int maxHP = 500;
 
 	void Start()
 	{
@@ -23,12 +23,14 @@ public class Golem : Monster
 		//atributes
 		HP = maxHP;
 		lookSpeed = 1f;
-		alertTime = 1.2f;
+		alertTime = 2.15f;
 		followPersist = 6f;
-		rangeAttack = 5f;
-		attackDelay = 3f;
+		rangeAttack = 3f;
+		attackDelay = 4.5f;
 		agent.speed = 1.3f;
-		
+		amountDmg = 3;
+
+
 	}
 
 
@@ -42,7 +44,6 @@ private void Update()
 			AnimControl();
 			CanSeeEvent();
 		}
-
 	}
 
 	private void OnTriggerStay(Collider other)
@@ -66,7 +67,17 @@ private void Update()
 		{
 			if (selfState != monsterState.FURY) changeState(monsterState.FURY);
 			blood.Emit(18);
-			anim.SetTrigger("GetHit");
+
+			int w = anim.GetCurrentAnimatorClipInfo(0).Length;
+			for (int i = 0; i < w; i += 1)
+			{
+				string clipName = anim.GetCurrentAnimatorClipInfo(0)[i].clip.name;
+                if (clipName != "GetHit")
+				{
+					anim.SetTrigger("GetHit");
+
+				}
+			}
 		}
 		else // is dead
 		{
@@ -114,7 +125,6 @@ private void Update()
 			LookAt();
 			isAttack = true;
 			anim.SetTrigger("Attack");
-
 		}
 	}
 

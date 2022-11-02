@@ -164,7 +164,6 @@ public class PlayerController : MonoBehaviour
             {
                 isDefending = false;
             }
-
             stamina -= 3 * amountDmg;
         }
         else
@@ -181,7 +180,6 @@ public class PlayerController : MonoBehaviour
                 anim.SetTrigger("Die");
             }
         }
-  
     }
 
     private void OnTriggerEnter(Collider other)
